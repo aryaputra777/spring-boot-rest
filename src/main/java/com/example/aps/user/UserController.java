@@ -28,5 +28,10 @@ public class UserController {
         this.userService.addNewUsers(user);
     }
 
+    @PutMapping(path = "{userId}")
+    public void updateUser(@PathVariable("userId") Long userId, @RequestParam String name, @RequestParam String email) {
+        this.userService.updateUser(userId, name, email);
+    }
+
 
 }
