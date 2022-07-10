@@ -3,7 +3,10 @@ package com.example.aps.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,6 +31,19 @@ public class UserService {
         }
         this.userRepository.save(user);
 
+    }
+
+    @Transactional
+    public void updateUser(Long userId, String name, String email) {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("student with id " + userId + " does not exists"));
+
+        if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
+            user.setName(name);
+        }
+
+        if (email != null && email.length() > 0 && !Objects.equals(user.getEmail(), email)) {
+            user.setEmail(email);
+        }
     }
 
 }
