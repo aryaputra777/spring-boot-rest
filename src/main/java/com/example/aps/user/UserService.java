@@ -35,7 +35,7 @@ public class UserService {
 
     @Transactional
     public void updateUser(Long userId, String name, String email) {
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("student with id " + userId + " does not exists"));
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("user with id " + userId + " does not exists"));
 
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
             user.setName(name);
@@ -44,6 +44,14 @@ public class UserService {
         if (email != null && email.length() > 0 && !Objects.equals(user.getEmail(), email)) {
             user.setEmail(email);
         }
+    }
+
+    public void deleteUser(Long userId) {
+        boolean exists = userRepository.existsById(userId);
+        if (!exists) {
+            throw new IllegalStateException("user with id " + userId + " does not exists");
+        }
+        this.userRepository.deleteById(userId);
     }
 
 }
